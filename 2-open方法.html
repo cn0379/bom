@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>window的open方法</title>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			#box{
+				margin-top: 2000px;
+			}
+			button{
+				margin-left: 100px;
+				padding: 12px 40px;
+				font-size: 16px;
+				letter-spacing: .1rem;
+				background-color: #fff;
+				border-radius: 3px;
+				border: 1px solid #999;
+			}
+		</style>
+	</head>
+	<body>
+		<button id="btn">执行open方法</button>
+		<iframe src="./1-页面加载函数.html" width="300" height="300" name="newwindow"></iframe>
+		
+		<a href="#box">到box</a>
+		<div id="box">box</div>
+		
+		
+		<script type="text/javascript">
+			/*
+				使用 `window.open()` 方法既可以导航到一个特定的 URL，也可以打开一个新的浏览器窗口。
+				var windowObjectReference = window.open(strUrl, strWindowName, [strWindowFeatures]);
+			*/
+			
+			var newWindow;
+			btn.onclick = function () {
+				// 一个参数，打开到特定的页面
+				// window.open("https://www.baidu.com");
+				
+				// 两个参数，第二个参数可以传类似a target的属性值,当页面里面有 iframe 的时候
+				// window.open("https://www.baidu.com", "newwindow");
+				
+				// 第三个参数，当第二个参数是打开一个新页面的时候，传入第三个参数，可以打开一个新窗口
+				// 同源指：协议、域名、端口号完全一致
+				// 网站 http默认端口是:80    https默认端口 :443   记住
+				newWindow = window.open("http://127.0.0.1:8848/%E8%AF%BE%E7%A8%8B%202004/6-2%20BOM+%E6%97%B6%E9%97%B4%E5%9E%8B%E5%8A%A8%E7%94%BB/1-%E9%A1%B5%E9%9D%A2%E5%8A%A0%E8%BD%BD%E5%87%BD%E6%95%B0.html", "_blank", "width=200,height=200,top=200,left=200");
+				
+				// 返回值有一个close方法可以关闭新窗口
+				// 当它符合同源策略的时候可以调用其他方法
+			}
+		</script>
+	</body>
+</html>

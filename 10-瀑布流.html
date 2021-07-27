@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>瀑布流</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		.center {
+			width: 1200px;
+			margin: 30px auto;
+		}
+
+		ul {
+			float: left;
+			width: 270px;
+			margin-left: 40px;
+			list-style: none;
+		}
+
+		ul:first-child {
+			margin-left: 0;
+		}
+
+		li {
+			font-size: 40px;
+			font-weight: bold;
+			color: #fff;
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="center">
+		<ul></ul>
+		<ul></ul>
+		<ul></ul>
+		<ul></ul>
+	</div>
+
+	<script type="text/javascript">
+
+		/*
+		1. 进入页面时生成滚动条
+			if(页面高度 < 可视区域高度 + 200){
+				生成内容(一排4个li，随机高度，按序号生成，随机颜色，按照当前ul的高度添加)
+			}
+		2. 滚动到底部，添加内容（一排 4个，按照每列高低添加内容）
+			if(页面高度 < 可视区域高度 + 卷入高度 + 200){
+				生成内容(一排4个li，随机高度，按序号生成，随机颜色，按照当前ul的高度添加)
+			}
+		*/
+
+		var ulLs = document.querySelectorAll("ul");
+
+		var count = 0;
+		init();
+		function init() {
+			while (document.body.scrollHeight < document.documentElement.clientHeight + 200) {
+				create();
+			}
+		}
+
+		// 滚动添加内容
+		window.onscroll = throttle(function () {
+			if (document.body.scrollHeight < document.documentElement.clientHeight + window.pageYOffset + 200) {
+				create();
+			}
+		}, 100)
+
+		function throttle(func, wait) {
+			var startTime = 0;
+			return function () {
+				if (Date.now() - startTime > wait) {
+					func();
+					startTime = Date.now();
+				}
+			}
+		}
+
+
+		function create() {
+			for (var i = 0; i < 4; i++) {
+				count++;
+				var liEle = document.createElement("li");
+				var h = rdNumber(260, 340);
+				liEle.style.height = h + "px";
+				liEle.style.lineHeight = h + "px";
+				liEle.style.backgroundColor = "hsl(" + rdNumber(0, 360) + ",80%, 70%)";
+				liEle.innerText = count;
+
+				// 比较ul高度，将生成的li放到最小高度的ul下
+				var min = 0;
+				for (var j = 1; j < ulLs.length; j++) {
+					if (ulLs[min].offsetHeight > ulLs[j].offsetHeight) {
+						min = j;
+					}
+				}
+
+				ulLs[min].appendChild(liEle);
+			}
+		}
+
+		function rdNumber(min, max) {
+			// 260-300
+			return Math.round(Math.random() * (max - min)) + min;
+		}
+	</script>
+</body>
+
+</html>

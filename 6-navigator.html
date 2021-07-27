@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>navigator</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+
+<body>
+
+	<script type="text/javascript">
+
+		var browserName = navigator.userAgent.toLowerCase();
+		isChrome = /chrome/i.test(browserName) && /webkit/i.test(browserName) && /mozilla/i.test(browserName);
+		isMobile = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(browserName));
+		console.log("isMobile ", isMobile);
+		console.log(isChrome);
+
+
+		window.addEventListener("offline", function (e) {
+			console.log(navigator.onLine);
+		})
+		window.addEventListener("online", function (e) {
+			console.log(navigator.onLine);
+		})
+	</script>
+</body>
+
+</html>

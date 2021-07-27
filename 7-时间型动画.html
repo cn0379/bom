@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>时间型动画</title>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.box{
+				position: relative;
+				left: 300px;
+				top: 0;
+				width: 150px;
+				height: 150px;
+				background-color: blueviolet;
+				border-radius: 50%;
+			}
+			button{
+				margin-left: 100px;
+				padding: 12px 40px;
+				font-size: 16px;
+				letter-spacing: .1rem;
+				background-color: #fff;
+				border-radius: 3px;
+				border: 1px solid #999;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box"></div>
+		
+		<button class="btn">点击跳转到900</button>
+		
+		<script type="text/javascript">
+			var btn = document.querySelector(".btn");
+			var box = document.querySelector(".box");
+			
+			
+			btn.onclick = function () {
+				// 动画时长 3s
+				// slowlyMove(box, 3000, 900);
+				animate(box, 3000, back, function (per){
+					box.style.left = 300 + per*650 + "px";
+				})
+			}
+			
+			// 弓箭函数
+			function back(timeFraction){
+				var x = 3;
+				return Math.pow(timeFraction, 2) * ((x+1) * timeFraction - x);
+			}
+			
+			/*
+				时间型动画：
+				   已过时间		    已过距离
+				------------- = -------------
+					总时长		  总的运动距离
+			*/
+			/*function slowlyMove(ele, duration, target){
+				if(ele.timer){
+					clearInterval(ele.timer);
+				}
+				// 进入动画的时候获取起始时间
+				var startTime = Date.now();
+				ele.timer = setInterval(function () {
+					// Date.now(); // 当前时间
+					// 已过时间的比例 0-1
+					var bite = (Date.now() - startTime)/duration;
+					if(bite >= 1){ // 因为bite可能不是一个整数值
+						bite = 1; // 所以超出设置为1
+						clearInterval(ele.timer);
+						ele.timer = null;
+					}
+					var move = bite * target;
+					ele.style.left = move + "px";
+					
+				}, 1000/60);
+			}*/
+			
+			function animate (ele, duration, timing, func) {
+				if(ele.timer){
+					clearInterval(ele.timer);
+				}
+				var startTime = Date.now();
+				ele.timer = setInterval(function () {
+					var bite = (Date.now() - startTime)/duration;
+					if(bite >= 1){ // 因为bite可能不是一个整数值
+						bite = 1; // 所以超出设置为1
+						clearInterval(ele.timer);
+						ele.timer = null;
+					}
+					func(timing(bite));
+				}, 1000/60);
+			}
+			
+			// x平方
+			function pf(per){
+				// Math.pow(per, n)
+				// return per*per*per;
+				return Math.pow(per, 1/3);
+			}
+			
+			function bounce(timeFraction){
+			    for(var a = 0,b = 1, result; 1; a += b, b/= 2){
+			        if(timeFraction >= (7 - 4 * a) / 11){
+			            return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2);
+			        }
+			    }
+			}
+			
+			// 逆反函数
+			function makeEaseOut(timing) {
+			  return function(timeFraction) {
+			    return 1 - timing(1 - timeFraction);
+			  }
+			}
+		</script>
+	</body>
+</html>

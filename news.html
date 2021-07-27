@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<p>类型为：<span></span></p>
+		<button onclick="history.go(-1)">返回</button>
+		
+		<script type="text/javascript">
+			var spanEle = document.querySelector("span");
+			console.log(location.search);
+			
+			var type = location.search.split("=")[1];
+			
+			switch(type){
+				case "1":
+					spanEle.innerText = "军事";
+					break;
+				case "2":
+					spanEle.innerText = "经济";
+					break;
+				case "3":
+					spanEle.innerText = "历史";
+					break;
+				case "4":
+					spanEle.innerText = "人文";
+					break;
+				case "5":
+					spanEle.innerText = "气象";
+					break;
+				default:
+					spanEle.innerText = "地理";
+					break;
+			}
+		</script>
+	</body>
+</html>

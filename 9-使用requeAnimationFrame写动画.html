@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>动画</title>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.box{
+				width: 200px;
+				height: 200px;
+				background-color: blueviolet;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div class="box"></div>
+		<script type="text/javascript">
+			var box = document.querySelector(".box");
+			
+			box.onclick = function () {
+				animate(3000, function (per) {
+					box.style.width = 200 + per*400 + "px";
+				}, pf)
+			}
+			
+			function pf(per){
+				return per * per;
+			}
+			
+			/**
+			 * 补间动画方法
+			 * @param { Number } start 开始数值
+			 * @param { Number } end   结束数值
+			 * @param { Number } time  补间时间,动画持续时长
+			 * @param { Function } callback 每帧的回调函数
+			 **/
+			function animate(time, callback, timing){
+				var startTime = performance.now(); // 设置开始的时间戳
+			
+				// 创建每帧之前要执行的动画
+			    function loop(now){
+			        var passTime = now - startTime; // 获取当前时间和开始的时间差
+			        var per = passTime / time; // 计算当前已过百分比
+			        if( per >= 1 ){  // 判读如果已经执行
+			            per = 1; // 设置为最后的状态
+			        }
+			       
+			        callback(timing(per)); // 调用回调函数,把时间比值传递进去
+			        if(per < 1){
+						requestAnimationFrame(loop) //下一阵调用每帧之前要执行的函数
+					}
+			    }
+			    requestAnimationFrame(loop) // 下一阵调用每帧之前要执行的函数
+			}
+		</script>
+	</body>
+</html>

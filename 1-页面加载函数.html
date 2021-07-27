@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>页面加载函数</title>
+	<!-- <link rel="stylesheet" type="text/css" href=""/> -->
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+
+	<script type="text/javascript">
+		// 入口函数  onload等页面所有内容加载完毕
+		window.onload = function () {
+			var box = document.querySelector(".box");
+			console.log(box);
+		}
+
+		// 等页面在它之前所有需要引入的内容加载完毕 会触发事件
+		addEventListener("DOMContentLoaded", function () {
+			console.log("这里会先执行");
+		})
+	</script>
+</head>
+
+<body>
+
+	<div class="box"></div>
+
+	<!-- <script src="XXX" type="text/javascript" charset="utf-8"></script> -->
+	<script type="text/javascript">
+
+	</script>
+</body>
+
+</html>

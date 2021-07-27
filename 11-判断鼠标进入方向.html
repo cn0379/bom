@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>判断鼠标进入方向</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		.box {
+			position: relative;
+			width: 400px;
+			height: 300px;
+			margin: 50px auto;
+			border: 1px solid red;
+		}
+
+		.mask {
+			position: absolute;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: red;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="box">
+		<div class="mask"></div>
+	</div>
+
+	<script type="text/javascript">
+		var box = document.querySelector(".box");
+		// 坐标原点在元素左上角
+
+		// 右上到左下的斜率
+		var kr = box.clientHeight / box.clientWidth;
+		console.log(box.clientHeight);
+		console.log(box.clientWidth);
+
+
+		// 左上到右下
+		var kl = -kr;
+
+		var maskL = document.querySelector(".maskL");
+
+		var center = {
+			x: box.clientWidth / 2,
+			y: -box.clientHeight / 2
+		}
+
+		box.onmouseenter = function () {
+			// event.offsetX,-event.offsetY
+			var str = judgeDirection(event);
+			console.log("进入：", str);
+		}
+
+
+		box.onmouseleave = function () {
+			var str = judgeDirection(event);
+			console.log("出去：", str);
+		}
+
+		function judgeDirection(event) {
+			var ke = (-event.offsetY - center.y) / (event.offsetX - center.x);
+			if (ke > kl && ke < kr) {
+				// 从左右进入的
+				if (event.offsetX < center.x) {
+					return "left";
+				} else {
+					return "right";
+				}
+			} else {
+				// 从上下进入的
+				if (-event.offsetY > center.y) {
+					return "top";
+				} else {
+					return "bottom";
+				}
+			}
+		}
+
+	</script>
+</body>
+
+</html>
